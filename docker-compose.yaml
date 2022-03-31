@@ -18,7 +18,7 @@ services:
     depends_on:
       - rabbitMQ_server
 
-  ride_matching:
+  ride_matching1:
     build:
       context: .
       dockerfile: Dockerfile_ride_matching
@@ -28,6 +28,18 @@ services:
       - producer
     environment:
       - CONSUMER_ID=C1
+      - PRODUCER_ADDRESS=producer:5000
+  
+  ride_matching2:
+    build:
+      context: .
+      dockerfile: Dockerfile_ride_matching
+    container_name: ride_matching_2
+    restart: on-failure
+    depends_on:
+      - producer
+    environment:
+      - CONSUMER_ID=C2
       - PRODUCER_ADDRESS=producer:5000
 
   ride_database:
